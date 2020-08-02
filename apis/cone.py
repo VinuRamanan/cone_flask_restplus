@@ -104,7 +104,7 @@ class Cone(Resource):
     def get(self):
         return {'message': 'This is the cone API'}
 
-    @namespace.expect(insert_input_model)
+    @namespace.expect(insert_input_model, validate=True)
     def post(self):
         data = json.loads(request.data)
         response = {'response': str(data)}
