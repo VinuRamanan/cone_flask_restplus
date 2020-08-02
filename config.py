@@ -1,28 +1,15 @@
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
+SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
-class Config(object):
-    DEBUG = False
-    TESTING = False
-    CSRF_ENABLED = True
-    SECRET_KEY = 'kagfsd913#!!u2eqeg#$n'
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+app = Flask(__name__)
 
+app.config["SQLALCHEMY_ECHO"] = True
+app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-class ProductionConfig(Config):
-    DEBUG = False
+db = SQLAlchemy(app)
 
-
-class StagingConfig(Config):
-    DEVELOPMENT = True
-    DEBUG = True
-
-
-class DevelopmentConfig(Config):
-    DEVELOPMENT = True
-    DEBUG = True
-
-
-class TestingConfig(Config):
-    TESTING = True
+print('config.py', SQLALCHEMY_DATABASE_URI)

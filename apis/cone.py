@@ -1,5 +1,8 @@
 from flask import Flask, request
 from flask_restplus import Namespace, Resource, fields, reqparse
+from config import db
+from models.cone_model import ConeRecord
+
 import json
 
 
@@ -19,7 +22,7 @@ insert_input_model = namespace.model('Cone Record',
                                              required=True,
                                              description='Date'
                                          ),
-                                         'time': TimeStampInSeconds(
+                                         'time_stamp': TimeStampInSeconds(
                                              required=True,
                                              description='Time starting from 1970 in seconds'
                                          ),
@@ -105,7 +108,17 @@ class Cone(Resource):
         return {'message': 'This is the cone API'}
 
     @namespace.expect(insert_input_model, validate=True)
+    @namespace.marshal_with(insert_output_model)
     def post(self):
         data = json.loads(request.data)
-        response = {'response': str(data)}
-        return response
+        data.pop('time_stamp')
+        cone = ConeRecord(**data)
+        try:
+            db.session.add(cone)
+            response = {'response': 'Inserted successfully'}
+        except BaseException as e:
+            print(e)
+            response = {'response': 'Insertion Failed'}
+        finally:
+            db.session.commit()
+            return response
