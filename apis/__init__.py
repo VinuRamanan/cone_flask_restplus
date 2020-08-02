@@ -1,5 +1,6 @@
 from flask_restplus import Api
 from .cone import namespace as namespace_cone
+from .generator import namespace as namespace_generate
 
 api = Api(
     title='Wall of APIs',
@@ -8,3 +9,4 @@ api = Api(
 )
 
 api.add_namespace(namespace_cone)
+api.add_namespace(namespace_generate)
