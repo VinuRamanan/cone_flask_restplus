@@ -6,7 +6,7 @@ import random
 namespace = Namespace(
     'generate', description='Generating randomized values for parameters that are either hardware or calculated')
 
-generate_output_model = namespace.model('Randomized calculated/ hardware data', {
+generate_output_model = namespace.model('Randomized calculated or hardware data', {
     'density': fields.Float(
         required=True,
         description='Density'
