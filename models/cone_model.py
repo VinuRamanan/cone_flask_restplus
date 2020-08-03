@@ -1,12 +1,11 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Date, Float
+from sqlalchemy import Column, Integer, String, Float
 import time
 from config import db
 
 
 class ConeRecord(db.Model):
     __tablename__ = 'cone_records'
-
     id = Column(Integer, primary_key=True)
     date = Column(Date)
     time_stamp = Column(Integer, default=int(

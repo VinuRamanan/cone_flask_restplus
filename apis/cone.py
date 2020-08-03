@@ -17,15 +17,6 @@ output_model = namespace.model('Greeting', {'message': fields.String(
     required=True, description='Just a greeting')})
 
 insert_input_model = namespace.model('Cone Record',
-                                     {
-                                         'date': fields.Date(
-                                             required=True,
-                                             description='Date'
-                                         ),
-                                         'time_stamp': TimeStampInSeconds(
-                                             required=True,
-                                             description='Time starting from 1970 in seconds'
-                                         ),
                                          'lot_number': fields.Integer(
                                              required=True,
                                              description='Lot Number'
@@ -101,24 +92,23 @@ insert_output_model = namespace.model('Insertion Response',
                                       })
 
 
-@namespace.route('')
+@ namespace.route('')
 class Cone(Resource):
-    @namespace.marshal_list_with(output_model)
+    @ namespace.marshal_list_with(output_model)
     def get(self):
         return {'message': 'This is the cone API'}
 
-    @namespace.expect(insert_input_model, validate=True)
-    @namespace.marshal_with(insert_output_model)
+    @ namespace.expect(insert_input_model, validate = True)
+    @ namespace.marshal_with(insert_output_model)
     def post(self):
-        data = json.loads(request.data)
-        data.pop('time_stamp')
-        cone = ConeRecord(**data)
+        data=json.loads(request.data)
+        cone=ConeRecord(**data)
         try:
             db.session.add(cone)
-            response = {'response': 'Inserted successfully'}
+            response={'response': 'Inserted successfully'}
         except BaseException as e:
             print(e)
-            response = {'response': 'Insertion Failed'}
+            response={'response': 'Insertion Failed'}
         finally:
             db.session.commit()
             return response
