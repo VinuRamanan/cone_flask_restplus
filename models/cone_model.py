@@ -6,8 +6,8 @@ from config import db
 
 class ConeRecord(db.Model):
     __tablename__ = 'cone_records'
+
     id = Column(Integer, primary_key=True)
-    date = Column(Date)
     time_stamp = Column(Integer, default=int(
         time.time()), onupdate=int(time.time()))
     lot_number = Column(String)
