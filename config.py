@@ -2,6 +2,8 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+
+# SQLALCHEMY_DATABASE_URI = ''  #GIVE SQLALCHEMY URL
 SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
 app = Flask(__name__)
