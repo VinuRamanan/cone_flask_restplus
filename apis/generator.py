@@ -1,6 +1,9 @@
 from flask import Flask, request
 from flask_restplus import Namespace, Resource, fields, reqparse
 import random
+from resources.density import Density
+
+DENSITY_OBJECT = Density()
 
 
 namespace = Namespace(
@@ -51,13 +54,10 @@ class RandomDataGenerator(Resource):
     @namespace.marshal_with(generate_output_model)
     def get(self):
         t = random.randint(0, 1)
-        data = {'density': random.random()*random.randint(0, 1000),
-                'spindle_number': random.random()*random.randint(0, 1000),
+
+        params = DENSITY_OBJECT.get_params()
+        data = {'spindle_number': 0.0,
                 'error_type': 'Error' if t else 'No Error',
-                'laser_raw_output': random.random()*random.randint(0, 1000),
-                'outer_radius': random.random()*random.randint(0, 1000),
-                'volume': random.random()*random.randint(0, 1000),
-                'weight_raw_output': random.random()*random.randint(0, 1000),
-                'mass': random.random()*random.randint(0, 1000),
-                'barcode_raw_input': random.random()*random.randint(0, 1000)}
-        return data
+                'barcode_raw_input': 0.0}
+        params.update(data)
+        return params

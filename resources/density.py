@@ -32,6 +32,7 @@ class Density:
                 # print(count,float(string_weight));
                 avg_weight += float(string_weight)
         weight = round(avg_weight / 5, 2)
+        self.weight_raw_output = weight
         # print(avg_weight,weight)
         return weight
 
@@ -50,15 +51,25 @@ class Density:
                 distance = 163/3285 * (intdata-810) + 119.5
             distance = round(distance, 2)
             # print(distance,"mm")
+            self.laser_raw_output = distance
             return distance
 
     def calculation(self, wt_rawop, lsr_rawop):  # ip: lsr_rawop & wt_rawop
         orad = FIXED_LENGTH - lsr_rawop + 35
         vol = PI * ((orad * orad - IR * IR)/10000) * (HT/100)
+        self.volume = vol
         mass = wt_rawop
+        self.mass = mass
         density = round((mass/vol), 2)
+        self.density = density
+        self.outer_radius = orad
         print("odia ", round(orad*2, 2), "mass ", mass, "Density ", density)
-        return density
+        return {'volume': self.volume,
+                'mass': self.mass,
+                'outer_radius': self.outer_radius,
+                'density': self.density,
+                'laser_raw_output': self.laser_raw_output,
+                'weight_raw_output': self.weight_raw_output}
 
-    def get_density(self):
+    def get_params(self):
         return self.calculation(self.weight(), self.laser())

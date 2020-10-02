@@ -10,4 +10,4 @@ DENSITY_OBJECT = Density()
 @namespace.route('density')
 class DensityResource(Resource):
     def get(self):
-        return DENSITY_OBJECT.get_density()
+        return DENSITY_OBJECT.get_params()
