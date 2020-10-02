@@ -1,13 +1,14 @@
 import serial
 
 # constants
-FIXED_LENGTH = 200  # In millimeter
+DESIGN_ERROR = 4.4;
+FIXED_LENGTH = 200 + DESIGN_ERROR;  #In millimeter
 IR = 35  # In millimeter
 PI = 3.14
 HT = 155  # In millimeter
 
 wt_serial = serial.Serial('COM6', 1200, timeout=1)
-lsr_serial = serial.Serial('COM13', 9600, timeout=1)
+lsr_serial = serial.Serial('COM10', 9600, timeout=1)
 
 
 class Density:
