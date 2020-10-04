@@ -15,7 +15,7 @@ class ConeRecord(db.Model):
     customer_name = Column(String)
     lot_weight = Column(Float)
     yarn_count = Column(String)
-    height = Column(Float)
+    lot_height = Column(Float)
     sample_number = Column(Integer)
     density = Column(Float)
     spindle_number = Column(Float)
