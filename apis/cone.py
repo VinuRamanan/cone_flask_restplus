@@ -32,11 +32,11 @@ insert_input_model = namespace.model('Cone Record', {
         required=True,
         description='Yarn Count'
     ),
-    'minimum_lot_height': fields.Float(
+    'start_lot_height': fields.Float(
         required=True,
         description='Height'
     ),
-    'maximum_lot_height': fields.Float(
+    'end_lot_height': fields.Float(
         required=True,
         description='Height'
     ),
