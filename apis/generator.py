@@ -7,16 +7,12 @@ DENSITY_OBJECT = Density()
 
 
 namespace = Namespace(
-    'generator', description='Generating randomized values for parameters that are either hardware or calculated')
+    'Data', description='Generating randomized values for parameters that are either hardware or calculated')
 
 generate_output_model = namespace.model('Randomized calculated or hardware data', {
     'density': fields.Float(
         required=True,
         description='Density'
-    ),
-    'spindle_number': fields.Float(
-        required=True,
-        description='Spindle Number'
     ),
     'error_type': fields.String(
         required=True,
@@ -26,7 +22,7 @@ generate_output_model = namespace.model('Randomized calculated or hardware data'
         required=True,
         description='Laser Raw Output'
     ),
-    'outer_radius': fields.Float(
+    'outer_diameter': fields.Float(
         required=True,
         description='Outer Radius'
     ),
@@ -46,18 +42,37 @@ generate_output_model = namespace.model('Randomized calculated or hardware data'
         required=True,
         description='Barcode Raw Input'
     ),
+    'weight': fields.Float(
+        required=True,
+        description='Barcode Raw Input'
+    ),
 })
 
 
-@namespace.route('')
+@namespace.route('/generator')
 class RandomDataGenerator(Resource):
+    @namespace.marshal_with(generate_output_model)
+    def get(self):
+        t = random.randint(0, 1)
+        data = {'density': random.random()*random.randint(1, 1000),
+                'laser_raw_output': random.random()*random.randint(1, 1000),
+                'outer_diameter': random.random()*random.randint(1, 1000),
+                'volume': random.random()*random.randint(1, 1000),
+                'weight_raw_output': random.random()*random.randint(1, 1000),
+                'mass': random.random()*random.randint(1, 1000),
+                'weight': random.random()*random.randint(1, 1000),
+                'error_type': 'Error' if t else 'No Error',
+                'barcode_raw_input': random.random()*random.randint(1, 1000)}
+        return data
+
+
+@namespace.route('/calculator')
+class DataCalculator(Resource):
     @namespace.marshal_with(generate_output_model)
     def get(self):
         t = random.randint(0, 1)
 
         params = DENSITY_OBJECT.get_params()
-        data = {'spindle_number': 0.0,
-                'error_type': 'Error' if t else 'No Error',
-                'barcode_raw_input': 0.0}
+        data = {'error_type': 'Error' if t else 'No Error'}
         params.update(data)
         return params
