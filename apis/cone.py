@@ -52,7 +52,7 @@ insert_input_model = namespace.model('Cone Record', {
         required=True,
         description='Density'
     ),
-    'spindle_number': fields.Float(
+    'spindle_number': fields.String(
         required=True,
         description='Spindle Number'
     ),
