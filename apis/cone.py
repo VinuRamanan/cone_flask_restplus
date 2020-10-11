@@ -32,7 +32,15 @@ insert_input_model = namespace.model('Cone Record', {
         required=True,
         description='Yarn Count'
     ),
-    'height': fields.Float(
+    'minimum_lot_height': fields.Float(
+        required=True,
+        description='Height'
+    ),
+    'maximum_lot_height': fields.Float(
+        required=True,
+        description='Height'
+    ),
+    'weight': fields.Float(
         required=True,
         description='Height'
     ),
@@ -56,7 +64,7 @@ insert_input_model = namespace.model('Cone Record', {
         required=True,
         description='Laser Raw Output'
     ),
-    'outer_radius': fields.Float(
+    'outer_diameter': fields.Float(
         required=True,
         description='Outer Radius'
     ),
@@ -71,10 +79,6 @@ insert_input_model = namespace.model('Cone Record', {
     'mass': fields.Float(
         required=True,
         description='Mass'
-    ),
-    'barcode_raw_input': fields.Float(
-        required=True,
-        description='Barcode Raw Input'
     ),
 })
 
