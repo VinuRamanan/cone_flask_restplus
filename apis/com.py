@@ -32,8 +32,8 @@ class Ports(Resource):
     def post(self):
         data = json.loads(request.data)
         existing = Port.query.filter_by(id=1).first()
-        existing.weight_port = data['weight_port']
-        existing.laser_port = data['laser_port']
+        for key, value in data.items():
+            setattr(existing, key, value)
         db.session.commit()
         return {'status': 1,
                 'message': 'Updated the Laser Port and Weight Port'
