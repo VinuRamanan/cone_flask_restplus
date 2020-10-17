@@ -12,8 +12,8 @@ input_model = namespace.model('PortModel', {
     'max_weight': fields.Float(required=True),
     'min_density': fields.Float(required=True),
     'max_density': fields.Float(required=True),
-    'min_outer_radius': fields.Float(required=True),
-    'max_outer_radius': fields.Float(required=True)
+    'min_outer_diameter': fields.Float(required=True),
+    'max_outer_diameter': fields.Float(required=True)
 })
 
 
@@ -27,8 +27,8 @@ class Configuration(Resource):
             'max_weight': data.max_weight,
             'min_density': data.min_density,
             'max_density': data.max_density,
-            'min_outer_radius': data.min_outer_radius,
-            'max_outer_radius': data.max_outer_radius
+            'min_outer_diameter': data.min_outer_diameter,
+            'max_outer_diameter': data.max_outer_diameter
         }
 
     @namespace.doc('Update the Configuration')
