@@ -36,7 +36,7 @@ class Configuration(Resource):
     def post(self):
         data = json.loads(request.data)
         existing = ConfigurationModel.query.filter_by(id=1).first()
-        for key, value in data.items:
+        for key, value in data.items():
             setattr(existing, key, value)
         db.session.commit()
         return {'status': 1,

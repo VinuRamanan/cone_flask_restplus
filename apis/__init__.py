@@ -3,6 +3,7 @@ from .cone import namespace as namespace_cone
 from .generator import namespace as namespace_generate
 from .density import namespace as namespace_density
 from .com import namespace as namespace_com
+from .configuration import namespace as namespace_conf
 
 api = Api(
     title='Wall of APIs',
@@ -14,3 +15,4 @@ api.add_namespace(namespace_cone)
 api.add_namespace(namespace_generate)
 api.add_namespace(namespace_density)
 api.add_namespace(namespace_com)
+api.add_namespace(namespace_conf)
