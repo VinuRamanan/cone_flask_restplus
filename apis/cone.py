@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_restplus import Namespace, Resource, fields, reqparse
 from config import db
 from models.cone_model import ConeRecord
+from sqlalchemy import desc
 
 import json
 
@@ -93,9 +94,6 @@ insert_output_model = namespace.model('Insertion Response',
 
 @ namespace.route('')
 class Cone(Resource):
-    @ namespace.marshal_list_with(output_model)
-    def get(self):
-        return {'message': 'This is the cone API'}
 
     @ namespace.expect(insert_input_model, validate=True)
     @ namespace.marshal_with(insert_output_model)
@@ -111,3 +109,12 @@ class Cone(Resource):
         finally:
             db.session.commit()
             return response
+
+
+@namespace.route('/customer_name=<string:customer_name>&lot_number=<string:lot_number>')
+class ConeData(Resource):
+
+    def get(self, customer_name, lot_number):
+        records = ConeRecord.query.filter_by(
+            customer_name=customer_name, lot_number=lot_number).order_by(desc(ConeRecord.id)).limit(100)
+        return [[record.spindle_number, record.weight, record.outer_diameter, record.density, record.error_type] for record in records]
