@@ -92,11 +92,11 @@ insert_output_model = namespace.model('Insertion Response',
                                       })
 
 
-@ namespace.route('')
+@namespace.route('')
 class Cone(Resource):
 
-    @ namespace.expect(insert_input_model, validate=True)
-    @ namespace.marshal_with(insert_output_model)
+    @namespace.expect(insert_input_model, validate=True)
+    @namespace.marshal_with(insert_output_model)
     def post(self):
         data = json.loads(request.data)
         cone = ConeRecord(**data)
@@ -115,6 +115,11 @@ class Cone(Resource):
 class ConeData(Resource):
 
     def get(self, customer_name, lot_number):
-        records = ConeRecord.query.filter_by(
-            customer_name=customer_name, lot_number=lot_number).order_by(desc(ConeRecord.id)).limit(100)
+        records = ConeRecord.query.filter(
+            ConeRecord.customer_name.like(customer_name)
+        ).filter(
+            ConeRecord.lot_number.like(lot_number)
+        ).order_by(
+            desc(ConeRecord.id)
+        ).limit(100)
         return [[record.sample_number, record.spindle_number, record.weight, record.outer_diameter, record.density, record.error_type] for record in records]
