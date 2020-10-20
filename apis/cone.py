@@ -117,4 +117,4 @@ class ConeData(Resource):
     def get(self, customer_name, lot_number):
         records = ConeRecord.query.filter_by(
             customer_name=customer_name, lot_number=lot_number).order_by(desc(ConeRecord.id)).limit(100)
-        return [[record.spindle_number, record.weight, record.outer_diameter, record.density, record.error_type] for record in records]
+        return [[record.sample_number, record.spindle_number, record.weight, record.outer_diameter, record.density, record.error_type] for record in records]
