@@ -16,4 +16,5 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
+
 print('config.py', SQLALCHEMY_DATABASE_URI)

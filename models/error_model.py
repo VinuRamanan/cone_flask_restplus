@@ -2,8 +2,8 @@ from sqlalchemy import Column, Integer, String, Float
 from config import db
 
 
-class Configuration(db.Model):
-    __tablename__ = 'configuration'
+class ErrorConfiguration(db.Model):
+    __tablename__ = 'error'
     id = Column(Integer, primary_key=True)
     min_density = Column(Float)
     max_density = Column(Float)

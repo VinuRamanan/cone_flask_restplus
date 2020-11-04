@@ -5,7 +5,7 @@ from config import db
 from flask import request
 import json
 
-namespace = Namespace('COMPorts', description='Port related Operations')
+namespace = Namespace('port', description='Port related Operations')
 
 input_model = namespace.model('PortModel', {
     'weight_port': fields.String(required=True),
@@ -13,14 +13,7 @@ input_model = namespace.model('PortModel', {
 })
 
 
-@namespace.route('/AvailablePorts')
-class AvailablePorts(Resource):
-    @namespace.doc('Get all the active ports')
-    def get(self):
-        return {'ports': [{'name': port[:3], 'value':port[3:]} for port in serial_ports()]}
-
-
-@namespace.route('/Ports')
+@namespace.route('')
 class Ports(Resource):
     @namespace.doc('Get the recently set Laser and Weight Port')
     def get(self):
