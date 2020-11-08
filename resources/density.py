@@ -5,19 +5,19 @@ for serial port and correct substring function
 import serial
 
 # data from front end at initialization and when changed
-DESIGN_ERROR = 4.4  # calibration of sensor for compensating maufacturing error
-TUBE_RAD = 0.35  # In millimeter
+# DESIGN_ERROR = 41.3  # calibration of sensor for compensating maufacturing error
+# TUBE_RAD = 0.35  # In decimeter
 
 
 # constants
-FIXED_LENGTH = 200 + DESIGN_ERROR  # In millimeter
+# FIXED_LENGTH = 200 + DESIGN_ERROR  # In millimeter
 PI = 3.14  # pi value
 TO_DECIMETER = 1/100  # length from millimeter to decimeter for litre conversion
 To_MILLIMETER = 100  # length decimeter to millimeter for litre conversion
 
 # initialization
-weight_object = None
-laser_object = None
+#weight_object = None
+#laser_object = None
 
 # opening Serial ports
 
@@ -84,6 +84,8 @@ def weight(object):  # weight finder using average of 5 $$ ip: weight mc object 
 def laser(object):  # to find distance bwt laser sensor and ouside of yarn $$Ip: laser object o/p: distance in mm
     if(object.in_waiting > 0):
         distance_bwt_yarnOut_and_sensor_mm = 0
+        # clear serial buffer
+        object.flushInput()
         # read string of 11 char of current sensor value
         current_sensor_String = object.read(11)
         # convert string of current sensor value to hex
@@ -105,15 +107,20 @@ def laser(object):  # to find distance bwt laser sensor and ouside of yarn $$Ip:
         # print("Laser")
         #print("Laser raw op:",distance_bwt_yarnOut_and_sensor_mm,"mm")
         return distance_bwt_yarnOut_and_sensor_mm
+    else:
+        print("No Laser Data")
 
 
 # ip: traverse star, traverse end, wt_rawop & lsr_rawop
-def calculation(tra_start, tra_end, wt_rawop, lsr_rawop, output):
+def calculation(tra_start, tra_end, wt_rawop, lsr_rawop, output, DESIGN_ERROR, TUBE_RAD):
     # traverse starting length
+    # tube rad at parameter is empty tube dia in mm frm front end so convert into tuberad in dm
+    TUBE_RAD = TUBE_RAD / 2 * TO_DECIMETER
     tra_start_dm = float_conv(tra_start) * TO_DECIMETER
     tra_end_dm = float_conv(tra_end) * TO_DECIMETER  # traverse ending length
     __weight = float_conv(wt_rawop)  # weight in grams
     # yarn winded cone radius in decimeter
+    FIXED_LENGTH = 200 + DESIGN_ERROR
     yarncone_rad_dm = float_conv(
         (FIXED_LENGTH - lsr_rawop + 35) * TO_DECIMETER)
     # depth of the frustrated cone divided by two because two cones in top and bottom
@@ -127,19 +134,22 @@ def calculation(tra_start, tra_end, wt_rawop, lsr_rawop, output):
     # total volume = yarn cylinder + 2 * frustarted cone (top and bottom) - empty cheese
     volume = cylinder_vol + frustrated_con_vol * 2 - empty_cylinder_vol
     output['volume'] = volume
-    __density = round(float_conv(weight/volume), 2)  # yarn density in gpl
+    print(__weight, yarncone_rad_dm, volume)
+    __density = round(float_conv(__weight/volume), 2)  # yarn density in gpl
     # yarncone diameter in mm
     __yarncone_dia_mm = round(yarncone_rad_dm * 2 * To_MILLIMETER, 2)
     output['outer_diameter'] = __yarncone_dia_mm
     __weight = round(float_conv(wt_rawop), 2)
-    output['weight'] = weight
+    output['weight'] = __weight
     #print("Cone Dia :",yarncone_dia_mm)
     # print(__density)
     return __density
 
 
-def calculate(tra_start, tra_end, weight_object, laser_object):
+def calculate(tra_start, tra_end, weight_object, laser_object, DESIGN_ERROR, TUBE_RAD):
+
     if weight_object and laser_object:
+        print(weight_object, laser_object)
         #print("Com port setup finished")
         #print("Check poimt 1")
         output = {}
@@ -149,13 +159,14 @@ def calculate(tra_start, tra_end, weight_object, laser_object):
         output['laser_raw_output'] = lsr_rawop
         # tra_start = input("Enter the tra_start :") # from front end ( height start )
         # tra_end = input("Enter the tra_end :") # from front end ( height end )
-        density = calculation(tra_start, tra_end, wt_rawop, lsr_rawop, output)
+        density = calculation(tra_start, tra_end, wt_rawop,
+                              lsr_rawop, output, DESIGN_ERROR, TUBE_RAD)
         output['density'] = density
         print("Wt: ", wt_rawop, "den: ", density)
         return output
 
 
-def hardware_config(wt_comport="COM10", lsr_comport="COM6"):
+def hardware_config(wt_comport="COM13", lsr_comport="COM6"):
     global weight_object, laser_object
     weight_object = weight_machine_config(wt_comport)
     laser_object = laser_sensor_config(lsr_comport)
@@ -164,6 +175,6 @@ def hardware_config(wt_comport="COM10", lsr_comport="COM6"):
 # hardware_config()
 
 # while(1):
-#     a = input("Do u want to check ? 1/0 : ")
-#     if (a == "1"):
-#         calculate(147,135)
+#    a = input("Do u want to check ? 1/0 : ")
+#    if (a == "1"):
+#        calculate(147,135,weight_object,laser_object)

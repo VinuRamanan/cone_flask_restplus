@@ -118,7 +118,7 @@ class Calculator(Resource):
         global weight_object, laser_object
         data = json.loads(request.data)
         output = calculate(
-            data['start_lot_height'], data['end_lot_height'], weight_object, laser_object)
+            data['start_lot_height'], data['end_lot_height'], weight_object, laser_object, data['calibration'], data['empty_tube_diameter'])
         if output:
             return output, 200
         return None, 500

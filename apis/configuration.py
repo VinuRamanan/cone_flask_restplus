@@ -105,4 +105,4 @@ class Ports(Resource):
 class AvailablePorts(Resource):
     @namespace.doc('Get all the active ports')
     def get(self):
-        return {'ports': [{'name': port[:3], 'value':port[3:]} for port in serial_ports()]}
+        return {'ports': [{'name': port, 'value': port} for port in serial_ports()]}
