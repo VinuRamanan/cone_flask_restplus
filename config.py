@@ -3,7 +3,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import json
 
-with open('settings.json') as f:
+
+print(os.listdir())
+with open('C:\\yarn_application\\settings.json', 'r') as f:
     settings = json.load(f)
 
 

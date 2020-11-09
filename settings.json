@@ -1,8 +1,8 @@
 {
     "POSTGRES": "postgres",
-    "POSTGRES_PWD": "pwd",
-    "CONE_USER": "user",
-    "CONE_PASSWORD": "pass",
-    "CONE_DBNAME": "db",
-    "SQLALCHEMY_URI": ""
+    "POSTGRES_PWD": "apple123",
+    "CONE_USER": "yuga",
+    "CONE_PASSWORD": "password",
+    "CONE_DBNAME": "density_meter_cone_data",
+    "SQLALCHEMY_URI": "postgres://yuga:password@localhost:5432/density_meter_cone_data",
 }

@@ -49,9 +49,18 @@ class Errors(Resource):
     @namespace.expect(error_input_model, validate=True)
     def post(self):
         data = json.loads(request.data)
-        existing = ErrorConfigurationModel.query.filter_by(id=1).first()
-        for key, value in data.items():
-            setattr(existing, key, value)
+        if not existing:
+            db.session.add(ErrorConfigurationModel(**{
+            'min_weight': data['min_weight'],
+            'max_weight': data['max_weight'],
+            'min_density': data['min_density'],
+            'max_density': data['max_density'],
+            'min_outer_diameter': data['min_outer_diameter'],
+            'max_outer_diameter': data['max_outer_diameter']
+        }))
+        else:
+            for key, value in data.items():
+                setattr(existing, key, value)
         db.session.commit()
         return {'status': 1,
                 'message': 'Updated the Error Configuration'
@@ -73,8 +82,11 @@ class Param(Resource):
     def post(self):
         data = json.loads(request.data)
         existing = ParamModel.query.filter_by(id=1).first()
-        for key, value in data.items():
-            setattr(existing, key, value)
+        if not existing:
+            db.session.add(ParamModel(empty_tube_diameter=data['empty_tube_diameter'], calibration=data['calibration']))
+        else:
+            for key, value in data.items():
+                setattr(existing, key, value)
         db.session.commit()
         return {'status': 1,
                 'message': 'Updated the Empty Tube Diameter'
@@ -93,8 +105,11 @@ class Ports(Resource):
     def post(self):
         data = json.loads(request.data)
         existing = Port.query.filter_by(id=1).first()
-        for key, value in data.items():
-            setattr(existing, key, value)
+        if not existing:
+            db.session.add(ParamModel(weight_port=data['weight_port'], laser_port=data['laser_port']))
+        else:
+            for key, value in data.items():
+                setattr(existing, key, value)
         db.session.commit()
         return {'status': 1,
                 'message': 'Updated the Laser Port and Weight Port'
