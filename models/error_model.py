@@ -14,3 +14,7 @@ class ErrorConfiguration(db.Model):
 
     def __repr__(self):
         return super().__repr__()
+
+
+db.create_all()
+db.session.commit()

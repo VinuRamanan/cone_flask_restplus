@@ -7,15 +7,6 @@ from models.param_model import ParamModel
 from resources import weight_object, laser_object
 import json
 
-
-data = ParamModel.query.filter_by(id=1).first()
-DESIGN_ERROR = data.calibration
-TUBE_RAD = data.empty_tube_diameter
-FIXED_LENGTH = 200 + DESIGN_ERROR
-PI = 3.14
-TO_DECIMETER = 1/100
-To_MILLIMETER = 100
-
 namespace = Namespace(
     'hardware', description='Generating randomized values for parameters that are either hardware or calculated')
 

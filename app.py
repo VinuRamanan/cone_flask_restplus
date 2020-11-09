@@ -5,5 +5,4 @@ import os
 
 
 CORS(app)
-
 api.init_app(app)

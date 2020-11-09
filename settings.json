@@ -1,0 +1,8 @@
+{
+    "POSTGRES": "postgres",
+    "POSTGRES_PWD": "pwd",
+    "CONE_USER": "user",
+    "CONE_PASSWORD": "pass",
+    "CONE_DBNAME": "db",
+    "SQLALCHEMY_URI": ""
+}

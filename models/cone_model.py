@@ -27,9 +27,11 @@ class ConeRecord(db.Model):
     outer_diameter = Column(Float)
     volume = Column(Float)
     weight_raw_output = Column(Float)
-    mass = Column(Float)
     weight = Column(Float)
-    barcode_raw_input = Column(Float)
 
     def __repr__(self):
         return super().__repr__()
+
+
+db.create_all()
+db.session.commit()
